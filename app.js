@@ -30,6 +30,68 @@ app.get('/usuarios', ( req, res ) =>{
 
 });
 
+app.post('/usuario', ( req, res )=>{
+
+    const data = req.body;
+
+    const user = new User();
+
+    user.saveUser( data );
+
+    res.json({
+        status: true,
+        data
+    });
+
+});
+
+app.get('/usuario/:id', ( req, res ) =>{
+
+    const id = req.params.id;
+
+    const user = new User();
+
+    const data = user.searchUsuario( id );
+
+    if( !data ){
+        res.json({
+            status: false,
+            message: `No existe usuario con ID ${id}`
+        });
+        return;
+    }
+   
+    res.json({
+        status: true,
+        data
+    });
+
+});
+
+app.put('/usuario/:id', ( req, res ) =>{
+
+    const id    = req.params.id;
+    const body  = req.body;
+
+    const user = new User();
+    const data = user.updateUser( id, body );
+
+    res.json( data );
+
+});
+
+app.delete('/usuario/:id', ( req, res ) =>{
+
+    const id = req.params.id;
+
+    const user = new User();
+
+    const data = user.deleteUser( id );
+
+    res.json( data );
+
+});
+
 
 app.listen(port, () => {
     console.log(`Escuchando el puerto ${port}`);
